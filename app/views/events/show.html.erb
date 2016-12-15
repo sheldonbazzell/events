@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/events">Dashboard<span class="sr-only">(current)</span></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><form id="out" action="/sessions" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+			<input type="hidden" name="_method" value="delete">
+			<input class="btn btn-primary btn-sm" type="submit" value="Logout">
+		</form></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h2><%= @event.name %></h2>
+				<h3>Host: <%= @event.user.first_name %></h3>
+				<h3>Date: <%= @event.date.strftime("%B %d, %Y") %></h3>
+				<h3>Location: <%= @event.city %>, <%= @event.state %></h3>
+				<h3>People are who are joining the event: <%= @event.users.count %></h3>
+				<table class="table table-striped">
+					<tr>
+						<th>Name</th>
+						<th>Location</th>
+						<th>State</th>
+					</tr>
+					<% @event.users.each do |user| %>
+					<tr>
+						<td><%= user.first_name %> <%= user.last_name %></td>
+						<td><%= user.city %></td>
+						<td><%= user.state %></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			<div class="col-md-6">
+				<% if flash[:comment_error] %>
+					<p class="error"><%= flash[:comment_error] %></p>
+				<% end %>
+				<h3>Discussion about this event:</h3>
+				<div id="comments">
+					<% @event.comments.each do |comment| %>
+						<p><%= comment.user.first_name %> ~~ <%= comment.comment %></p>
+						<hr>
+					<% end %>
+				</div>
+				<h4>Post a Comment</h4>
+				<form action="/comments" method="post">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+					<input type="hidden" name="comment[event_id]" value="<%= @event.id %>">
+					<div class="form-group">
+					<textarea name="comment[comment]" id="comment-box" class="form-control" cols="40" rows="3" placeholder="Add Comment"></textarea>
+					</div>
+					<input class="btn btn-success btn-sm" type="submit" value="Submit Comment">
+				</form>
+			</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/users/<%= current_user.id %>/edit">Edit My Profile<span class="sr-only">(current)</span></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><form id="out" action="/sessions" method="post">
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+				<input type="hidden" name="_method" value="delete">
+				<input class="btn btn-primary btn-sm" type="submit" value="Logout">
+			</form>
+		</li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<header>
+		<h2>Welcome, <%= current_user.first_name %></h2>
+	</header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="my-state">
+					<h3>Here are some of the events at your state:</h3>
+					<table class="table table-striped">
+						<tr>
+							<th>Name</th>
+							<th>Date</th>
+							<th>Location</th>
+							<th>Host</th>
+							<th>Action / Status</th>
+						</tr>
+						<tr>
+						<% @events_my_state.each do |event| %>
+							<td><a href='/events/<%= event.id %>'><button class="btn btn-default btn-xs"><%= event.name %></button></a></td>
+							<td><%= event.date.strftime("%B %d %Y") %></td>
+							<td><%= event.city %> <%= event.state %></td>
+							<td><%= event.user.first_name %></td>
+							<td>
+								<% if event.user == current_user %>
+									<a href="events/<%= event.id %>/edit"><button class="btn btn-info btn-xs">Edit</button></a>
+									<form action="/events/<%= event.id %>" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="_method" value="delete" />
+										<input class="btn btn-danger btn-xs" type="submit" value="Delete">
+									</form>	
+								<% elsif !event.users.include?(current_user) %>
+									<form action="/attends" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="event_id" value="<%= event.id %>">
+										<input class="btn btn-success btn-xs" type="submit" value="Join">
+									</form>
+								<% elsif event.users.include?(current_user) %>
+									<p><small>Joining</small></p>
+									<form action="/attends/<%= event.id %>" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="_method" value="delete" />
+										<input class="btn btn-warning btn-xs" type="submit" value="Cancel">
+									</form>	
+								<% end %>
+							</td>
+						</tr>
+						<% end %>
+					</table>
+
+				</div>
+				<div class="my-state">
+					<h3>Here are some of the events at other states:</h3>
+					<table class="table table-striped">
+						<tr>
+							<th>Name</th>
+							<th>Date</th>
+							<th>Location</th>
+							<th>Host</th>
+							<th>Action / Status</th>
+						</tr>
+					<% @events_not_my_state.each do |event| %>
+							<td><a href='/events/<%= event.id %>'><button class="btn btn-default btn-xs"><%= event.name %></button></a></td>
+							<td><%= event.date.strftime("%B %d %Y") %></td>
+							<td><%= event.city %> <%= event.state %></td>
+							<td><%= event.user.first_name %></td>
+							<td>
+								<% if event.user == current_user %>
+									<a href="events/<%= event.id %>/edit"><button class="btn btn-info btn-xs">Edit</button></a>
+									<form action="/events/<%= event.id %>" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="_method" value="delete" /><input class="btn btn-danger btn-xs" type="submit" value="Delete">
+									</form>	
+								<% elsif !event.users.include?(current_user) %>
+									<form action="/attends" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="event_id" value="<%= event.id %>">
+										<input class="btn btn-success btn-xs" type="submit" value="Join">
+									</form>
+								<% elsif event.users.include?(current_user) %>
+									<p><small>Joining</small></p>
+									<form action="/attends/<%= event.id %>" method="post">
+										<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
+										<input type="hidden" name="_method" value="delete" />
+										<input class="btn btn-warning btn-xs" type="submit" value="Cancel">
+									</form>	
+								<% end %>
+							</td>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<% if flash[:event_errors] %>
+					<p class="error"><%= flash[:event_errors] %></p>
+				<% end %>
+				<div class="add-event">
+					<h3>Add an Event</h3>
+					<%= form_for Event.new, url: '/events' do |f| %>
+						<%= f.label :name %>
+						<%= f.text_field :name %>
+						<%= f.label :date %>
+						<%= f.date_field :date %>
+						<%= f.label :location %>
+						<%= f.text_field :city %>
+						<%= select_tag :state, options_for_select(us_states) %>
+						<input class="btn btn-success btn-sm" type="submit" value="Create Event">
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

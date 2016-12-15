@@ -1,0 +1,26 @@
+// Place all the styles related to the Events controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+body.events {
+	h1, #out, #dash { display: inline; }
+	.add-event { margin-top: 20px; margin-left: 80px; }
+	.add-event input, .edit-event input { display: block; margin-bottom: 10px; }
+	.add-event input:not(:last-child){ width: 90%; height: 20px; }
+	.add-event select { margin-bottom: 10px; }
+	.edit-event input:not(:last-child) { width: 30%; height: 30px; }
+	.edit-event { width: 80%; }
+	#new_event { width: 50%; }
+	#event_city, #state { display: inline-block; vertical-align: top; }
+	.button { padding: 5px 10px; }
+	#comments { overflow: scroll; height: 200px; width: 80%; border: 1px solid black; border-radius: 4px; padding: 5px 15px; margin-bottom: 20px; }
+	h3, h4 {margin-bottom: 7px;}
+	p, form { display: inline-block; vertical-align: top; }
+	.error { color: red; margin-top: 20px; }
+	header { margin-top: 20px; margin-bottom: 20px;}
+	#state { margin-bottom: 20px;}
+	h2, #back { display: inline; vertical-align: top; }
+	h2 { margin-right: 30px; }
+	#contain { padding: 20px 40px;}
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/events">Back<span class="sr-only">(current)</span></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<header>
+		<h2 id="edit">Edit <%= @event.name %></h2>
+	</header>
+	<div id="contain">
+		<form class="edit-event" action="/events/<%= @event.id %>" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+			<input type="hidden" name="_method" value="patch" />
+			<label for="event[name]">First Name</label>
+			<input type="text" name="event[name]" value="<%= @event.name %>" />
+			<label for="event[date]">Last Name</label>
+			<input type="date" name="event[date]" value="<%= @event.date %>" />
+			<label for="event[city]">Location</label>
+			<input type="text" name="event[city]" value="<%= @event.city %>" />
+			<%= select_tag :'event[state]', options_for_select(us_states, "#{@event.state}") %>
+			<input class="button btn btn-success btn-sm" type="submit" value="Update Event">
+		</form>
+	</div>
+</body>
+</html>

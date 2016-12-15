@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div id="contain">
+		<div id="reg">
+			<% if flash[:errors] %>
+				<p class="error"><%= flash[:errors] %></p>
+			<% end %>
+			<h2>Register</h2>
+			<%= form_for User.new, url: '/users' do |f| %>
+				<%= f.label :first_name %>
+				<%= f.text_field :first_name %>
+				<%= f.label :last_name %>
+				<%= f.text_field :last_name %>
+				<%= f.label :email %>
+				<%= f.text_field :email %>
+				<%= f.label :location %>
+				<%= f.text_field :city %>
+				<%= select_tag :state, options_for_select(us_states) %>
+				<%= f.label :password, id: 'pw-label' %>
+				<%= f.text_field :password %>
+				<%= f.label :confirm_pw %>
+				<%= f.text_field :password_confirmation %>
+				<input class="btn btn-primary btn-md" type="submit" value="Register">
+
+			<% end %>
+			</div>
+		<div id="login">
+			<% if flash[:login_errors] %>
+				<p class="error"><%= flash[:login_errors] %></p>
+			<% end %>
+			<h2>Login</h2>
+			<form action="/sessions" method="post">
+				<input type="hidden" name="authenticity_token" value="<% form_authenticity_token %>">
+				<label for="user[email]">Email:</label>
+				<input type="text" name="user[email]">
+				<label for="user[password]">Password:</label>
+				<input type="text" name="user[password]">
+				<input class="btn btn-primary btn-md" type="submit" value="Login">
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -19,7 +19,7 @@
 				<%= f.text_field :email %>
 				<%= f.label :location %>
 				<%= f.text_field :city %>
-				<%= select_tag name:'user[state]', id:'state', options_for_select(us_states) %>
+				<%= select_tag :'user[state]', options_for_select(us_states) %>
 				<%= f.label :password, id: 'pw-label' %>
 				<%= f.text_field :password %>
 				<%= f.label :confirm_pw %>

@@ -31,9 +31,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'hirb'
 
-gem 'pry'
 
 group :development, :test do 
+	gem 'pry'
 	gem 'rspec-rails'
 	gem 'database_cleaner'
 end

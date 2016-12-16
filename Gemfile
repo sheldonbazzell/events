@@ -11,7 +11,6 @@ gem 'sass-rails', '>= 3.2'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
@@ -31,9 +30,12 @@ gem 'spring',        group: :development
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'hirb'
+
 gem 'pry'
 
+
 group :development, :test do 
+	gem 'pry'
 	gem 'rspec-rails'
 	gem 'pry'
 	gem 'database_cleaner'

@@ -13,8 +13,7 @@ class UsersController < ApplicationController
     		redirect_to "/users"
   	else
   		@user.save!
-      binding.pry
-      @user.update(state:params[:state])
+      @user.update(email:params[:user][:email].downcase)
   		session[:id] = @user.id
   		redirect_to "/events"
   	end

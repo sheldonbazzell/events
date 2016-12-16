@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
 	has_many :attends
 	has_many :events_attending, through: :attends, source: :user
 	has_many :comments
-	validates :first_name, :last_name, :email, :city, presence: :true, on: :create
+	validates :first_name, :last_name, :email, :city, presence: :true
 	has_secure_password
-	validates :first_name, :last_name, :email, :city, :password, presence: :true, on: :update
+	validates :password, presence: :true, on: :update
 	validates :email, uniqueness: { case_sensitive: false }, format: { with: email_regex }
 
 end

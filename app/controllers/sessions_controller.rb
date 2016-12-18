@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+	# methods for creating and destroying session
+	
 	def create
 		@user = User.where(email:params[:user][:email].downcase).first
 		if @user
